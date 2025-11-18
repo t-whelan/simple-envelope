@@ -18,8 +18,8 @@
 
     /* Envelope */
     .envelope {
-      width: 200px;
-      height: 120px;
+      width: 340px;       /* increased ~60px */
+      height: 220px;      /* increased ~60px */
       background: #e84a5f;
       position: relative;
       cursor: pointer;
@@ -42,15 +42,15 @@
     /* Compliment Card */
     .compliment-card {
       display: none;
-      width: 90%;
-      max-width: 350px;
-      margin-top: 20px;
-      padding: 1.5rem;
+      width: 95%;
+      max-width: 460px;   /* bigger max width */
+      margin-top: 30px;
+      padding: 3rem;      /* bigger padding */
       text-align: center;
-      font-size: 1.1rem;
+      font-size: 2.3rem;  /* bigger font size */
       background: white;
       border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
       animation: slideIn 0.5s ease forwards;
     }
 
@@ -59,38 +59,38 @@
       to { transform: translateY(0); opacity: 1; }
     }
 
-    /* Shake Animation on Slide */
     .shake {
       animation: shake 0.4s ease-in-out;
     }
 
     @keyframes shake {
       0% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      50% { transform: translateX(5px); }
-      75% { transform: translateX(-5px); }
+      25% { transform: translateX(-8px); }
+      50% { transform: translateX(8px); }
+      75% { transform: translateX(-8px); }
       100% { transform: translateX(0); }
     }
 
     /* Button */
     #nextBtn {
-      padding: 0.7rem 1.5rem;
+      padding: 1.5rem 3rem;   /* bigger button */
       background: #ff7b54;
       border: none;
       color: white;
-      font-size: 1rem;
-      border-radius: 8px;
-      margin-top: 1rem;
+      font-size: 2rem;        /* bigger text */
+      border-radius: 12px;
+      margin-top: 2rem;
       cursor: pointer;
       transition: background 0.3s ease;
     }
     #nextBtn:hover { background: #e36a47; }
 
     /* Mobile Responsiveness */
-    @media (max-width: 500px) {
-      .envelope { width: 180px; height: 110px; }
-      .compliment-card { font-size: 1rem; padding: 1.2rem; }
-      #nextBtn { padding: 0.6rem 1.2rem; font-size: 0.9rem; }
+    @media (max-width: 600px) {
+      .envelope { width: 95%; height: 260px; }
+      .flap { height: 50%; }
+      .compliment-card { font-size: 2rem; padding: 2.5rem; max-width: 95%; }
+      #nextBtn { font-size: 1.8rem; padding: 1.3rem 2.5rem; }
     }
   </style>
 </head>
@@ -123,8 +123,6 @@
       "I like your laugh.",
       "I like seeing you happy.",
       "I like when you’re just yourself.",
-
-      // 🔥 NEW 🔥
       "I like how you make me feel special.",
       "I like how you keep it real.",
       "I like your wit and intellectual standpoints.",
@@ -134,10 +132,10 @@
       "I like your next-level spirit.",
       "Of course I like your face.",
       "But the person behind it — that’s the one I like the most.",
-
-      // Emotional ending
       "I love when you are all of those things and more.",
       "I love that even though you show me the good, you show me you’re human.",
+      "You are so hard-working and dedicated.",
+      "You always push through and never give up.",
       "And my favourite human right now… is you."
     ];
 
@@ -151,17 +149,14 @@
 
     nextBtn.addEventListener('click', () => {
       index++;
-
-      // 🧠 If last compliment → close envelope gently
       if (index >= compliments.length) {
         complimentCard.style.animation = "fadeOut 0.7s forwards";
         envelope.classList.remove('opened');
         return;
       }
-
       complimentText.textContent = compliments[index];
       complimentCard.classList.remove('shake');
-      void complimentCard.offsetWidth; // reset animation
+      void complimentCard.offsetWidth;  // reset animation
       complimentCard.classList.add('shake');
     });
   </script>
