@@ -1,179 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>An Envelope of Appreciation for Shawn</title>
-    <!-- Load Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Custom CSS for the Sliding Animation */
-        #card-track {
-            display: flex;
-            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smooth transition */
-            will-change: transform;
-            height: 100%;
-        }
+  <meta charset="UTF-8" />
+  <title>Envelope Surprise</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ffebf0, #ffe7c2);
+      font-family: "Poppins", sans-serif;
+      overflow: hidden;
+      padding: 1rem;
+    }
 
-        .card {
-            flex-shrink: 0; /* Important: Prevents cards from shrinking */
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 1.5rem;
-            text-align: center;
-            height: 100%;
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
+    /* Envelope */
+    .envelope {
+      width: 200px;
+      height: 120px;
+      background: #e84a5f;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.4s ease;
+    }
+    .envelope:hover { transform: scale(1.03); }
 
-        /* Initial Envelope Animation */
-        @keyframes popIn {
-            0% { transform: scale(0.5) translateY(-50px); opacity: 0; }
-            100% { transform: scale(1) translateY(0); opacity: 1; }
-        }
+    .flap {
+      width: 100%;
+      height: 50%;
+      background: #c43b4c;
+      position: absolute;
+      top: 0;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: top;
+      transition: transform 0.5s ease-in-out;
+    }
+    .envelope.opened .flap { transform: rotateX(180deg); }
 
-        #envelope {
-            animation: popIn 0.8s ease-out forwards;
-        }
+    /* Compliment Card */
+    .compliment-card {
+      display: none;
+      width: 90%;
+      max-width: 350px;
+      margin-top: 20px;
+      padding: 1.5rem;
+      text-align: center;
+      font-size: 1.1rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      animation: slideIn 0.5s ease forwards;
+    }
 
-        /* Responsive adjustments for the card and envelope */
-        #envelope-container {
-            max-width: 90%;
-            margin: 0 auto;
-        }
-        
-        @media (min-width: 640px) {
-            #envelope-container {
-                max-width: 500px;
-            }
-        }
-    </style>
+    @keyframes slideIn {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Shake Animation on Slide */
+    .shake {
+      animation: shake 0.4s ease-in-out;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+
+    /* Button */
+    #nextBtn {
+      padding: 0.7rem 1.5rem;
+      background: #ff7b54;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    #nextBtn:hover { background: #e36a47; }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 500px) {
+      .envelope { width: 180px; height: 110px; }
+      .compliment-card { font-size: 1rem; padding: 1.2rem; }
+      #nextBtn { padding: 0.6rem 1.2rem; font-size: 0.9rem; }
+    }
+  </style>
 </head>
-<body class="bg-indigo-50 min-h-screen flex flex-col items-center justify-center p-4 font-sans">
+<body>
 
-    <div id="envelope-container" class="w-full">
-        <!-- Main Title -->
-        <h1 class="text-3xl sm:text-4xl font-extrabold text-indigo-800 mb-6 text-center tracking-tight">
-            An Envelope of Appreciation
-        </h1>
+  <div class="envelope" id="envelope">
+    <div class="flap"></div>
+  </div>
 
-        <!-- Envelope Card -->
-        <div id="envelope" class="bg-white p-6 sm:p-8 rounded-2xl shadow-2xl w-full border-4 border-indigo-200" style="opacity: 0;">
-            
-            <h2 class="text-xl sm:text-2xl font-bold text-indigo-600 mb-6 text-center">For Shawn:</h2>
+  <div class="compliment-card" id="complimentCard">
+    <p id="complimentText"></p>
+    <button id="nextBtn">Next</button>
+  </div>
 
-            <!-- Card Display Area (The "Window" of the Envelope) -->
-            <div id="card-window" class="overflow-hidden rounded-xl h-48 sm:h-56 border border-gray-200 bg-gray-50">
-                <div id="card-track">
-                    <!-- Cards will be generated here by JavaScript -->
-                </div>
-            </div>
+  <script>
+    const envelope = document.getElementById('envelope');
+    const complimentCard = document.getElementById('complimentCard');
+    const complimentText = document.getElementById('complimentText');
+    const nextBtn = document.getElementById('nextBtn');
 
-            <!-- Next Button -->
-            <div class="mt-8 flex justify-center">
-                <button id="next-button" class="px-6 py-3 bg-indigo-500 text-white font-semibold rounded-full shadow-lg hover:bg-indigo-600 transition duration-200 transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-indigo-300">
-                    Next Compliment →
-                </button>
-            </div>
-            
-            <p id="counter" class="text-center text-sm text-gray-500 mt-4"></p>
-        </div>
-    </div>
+    const compliments = [
+      "I like how goofy you are.",
+      "I like how funny you are.",
+      "I like how you don’t even know you’re my best part of any day.",
+      "I like how you tell me the most random things.",
+      "I like how you make the most random comments.",
+      "I like how you make the most random noises.",
+      "I like how my face lights up when I type or think about you.",
+      "I like your smile.",
+      "I like your laugh.",
+      "I like seeing you happy.",
+      "I like when you’re just yourself.",
 
-    <script>
-        // --- JAVASCRIPT LOGIC ---
-        
-        // 1. Data Setup
-        const compliments = [
-            "I like how goofy you are",
-            "I like how funny you are",
-            "I like how you don’t even know you’re my best part of any day.",
-            "I like how you tell me the most random things",
-            "I like how you make the most random comments",
-            "I like how you make the most random noises",
-            "I like how my face lights up when I type or think about you.",
-            "I like your smile",
-            "I like your laugh",
-            "I like seeing you happy",
-            "I like when you’re just yourself",
-            "I love when you all of those thing and more",
-            "I love that I get to experience all.",
-            "I love that even though you show me the good",
-            "You show me you’re human",
-            "And my favourite human right now is you ."
-        ];
-        
-        let currentIndex = 0;
-        const totalCompliments = compliments.length;
+      // 🔥 NEW 🔥
+      "I like how you make me feel special.",
+      "I like how you keep it real.",
+      "I like your wit and intellectual standpoints.",
+      "I like learning what makes you happy.",
+      "I like your energy.",
+      "I like your aura.",
+      "I like your next-level spirit.",
+      "Of course I like your face.",
+      "But the person behind it — that’s the one I like the most.",
 
-        // 2. DOM Elements
-        const cardTrack = document.getElementById('card-track');
-        const nextButton = document.getElementById('next-button');
-        const counterElement = document.getElementById('counter');
+      // Emotional ending
+      "I love when you are all of those things and more.",
+      "I love that even though you show me the good, you show me you’re human.",
+      "And my favourite human right now… is you."
+    ];
 
-        /**
-         * Creates and initializes all the card elements in the DOM.
-         */
-        function initializeCards() {
-            compliments.forEach((text, index) => {
-                const card = document.createElement('div');
-                card.classList.add('card');
-                
-                // Add some unique styling for different card types
-                const icon = index < 11 ? '😊' : '💖'; // Use a different icon for "love" vs "like"
-                const title = index < 11 ? 'I Like...' : 'I Love...';
-                
-                card.innerHTML = `
-                    <p class="text-4xl mb-4">${icon}</p>
-                    <h3 class="text-xl font-semibold mb-3 text-gray-800">${title}</h3>
-                    <p class="text-lg text-gray-600 italic">"${text}"</p>
-                `;
-                cardTrack.appendChild(card);
-            });
-            updateCounter();
-        }
-        
-        /**
-         * Updates the counter text at the bottom.
-         */
-        function updateCounter() {
-            counterElement.textContent = `Compliment ${currentIndex + 1} of ${totalCompliments}`;
-        }
+    let index = 0;
 
-        /**
-         * Handles the click event for the "Next" button.
-         * Applies a CSS transform to slide the cards.
-         */
-        function handleNextClick() {
-            // Increment index, wrapping around to 0 when reaching the end
-            currentIndex = (currentIndex + 1) % totalCompliments;
-            
-            // Calculate the required horizontal translation. 
-            // Since each card is 100% width, we translate by -currentIndex * 100vw (or in this case, 100% of the parent width).
-            const translateValue = -currentIndex * 100; // 100% width per card
-            
-            // Apply the transform using a style variable for animation
-            cardTrack.style.transform = `translateX(${translateValue}%)`;
-            
-            updateCounter();
+    envelope.addEventListener('click', () => {
+      envelope.classList.add('opened');
+      complimentCard.style.display = 'block';
+      complimentText.textContent = compliments[index];
+    });
 
-            // Disable the button briefly to prevent rapid clicking while animating
-            nextButton.disabled = true;
-            setTimeout(() => {
-                nextButton.disabled = false;
-            }, 600); // Re-enable after the 0.6s transition is complete
-        }
+    nextBtn.addEventListener('click', () => {
+      index++;
 
-        // 3. Event Listeners and Initialization
-        document.addEventListener('DOMContentLoaded', () => {
-            initializeCards();
-            nextButton.addEventListener('click', handleNextClick);
-        });
+      // 🧠 If last compliment → close envelope gently
+      if (index >= compliments.length) {
+        complimentCard.style.animation = "fadeOut 0.7s forwards";
+        envelope.classList.remove('opened');
+        return;
+      }
 
-    </script>
+      complimentText.textContent = compliments[index];
+      complimentCard.classList.remove('shake');
+      void complimentCard.offsetWidth; // reset animation
+      complimentCard.classList.add('shake');
+    });
+  </script>
+
 </body>
 </html>
