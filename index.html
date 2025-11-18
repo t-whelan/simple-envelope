@@ -18,8 +18,8 @@
 
     /* Envelope */
     .envelope {
-      width: 340px;       /* increased ~60px */
-      height: 220px;      /* increased ~60px */
+      width: 340px;
+      height: 220px;
       background: #e84a5f;
       position: relative;
       cursor: pointer;
@@ -43,11 +43,11 @@
     .compliment-card {
       display: none;
       width: 95%;
-      max-width: 460px;   /* bigger max width */
+      max-width: 460px;
       margin-top: 30px;
-      padding: 3rem;      /* bigger padding */
+      padding: 3rem;
       text-align: center;
-      font-size: 2.3rem;  /* bigger font size */
+      font-size: 2.3rem;
       background: white;
       border-radius: 12px;
       box-shadow: 0 5px 20px rgba(0,0,0,0.3);
@@ -73,11 +73,11 @@
 
     /* Button */
     #nextBtn {
-      padding: 1.5rem 3rem;   /* bigger button */
+      padding: 1.5rem 3rem;
       background: #ff7b54;
       border: none;
       color: white;
-      font-size: 2rem;        /* bigger text */
+      font-size: 2rem;
       border-radius: 12px;
       margin-top: 2rem;
       cursor: pointer;
@@ -112,30 +112,44 @@
     const nextBtn = document.getElementById('nextBtn');
 
     const compliments = [
+      'Hi my sweets! 🍬 I coded and curated this envelope to show off my skill👩🏽‍💻 and show off what you mean to me.🙃, I hope you remember each little card, everytime you feel less than , too much or just low, that you are the highest in any room I am in. ',
+      "I like how your presence makes everything feel lighter.",
+  "I like the way your smile can brighten my worst days.",
+  "I like how you make ordinary moments unforgettable.",
+  "I like the way you genuinely listen to me.",
+  "I like that you notice the little things that others don’t.",
+  "I like how you lead by example without needing recognition.",
+  "I like the way you make life feel more meaningful.",
+  "I like how you turn mistakes into funny stories.",
+  "I like that you’re unapologetically yourself.",
+  "I like your courage to always speak your truth.",
+  "I like the way you turn challenges into opportunities.",
+  "I like how your words make me feel understood.",
+  "I like the way you care without expecting anything in return.",
       "I like how goofy you are.",
-      "I like how funny you are.",
-      "I like how you don’t even know you’re my best part of any day.",
+      "I like how you make me laugh out loud, even in my most serious moments or worst days you don’t know of.",
+      "I like how you don’t even know you’re the best part of any day.",
       "I like how you tell me the most random things.",
       "I like how you make the most random comments.",
       "I like how you make the most random noises.",
       "I like how my face lights up when I type or think about you.",
-      "I like your smile.",
-      "I like your laugh.",
+      "I like your smile and how it makes me feel warm and fuzzy.",
+      "I like your laugh and how its sooo contagious.",
       "I like seeing you happy.",
+      "I like  hearing you talk about the things your inner child gets exicited about",
       "I like when you’re just yourself.",
-      "I like how you make me feel special.",
-      "I like how you keep it real.",
+      "I like how you make me feel special and seen.",
+      "I like how you keep shit real and straightfoward.",
       "I like your wit and intellectual standpoints.",
       "I like learning what makes you happy.",
-      "I like your energy.",
-      "I like your aura.",
-      "I like your next-level spirit.",
-      "Of course I like your face.",
+      "I like listening to your stories and voicenotes as a break from my bland mind",
+      "I like your passionate and enthusiastic aura that makes me believe I can be more like you.",
+       "I like that You are so hard-working and dedicated.",
+      "I like that You always push through the longest days and hardly complain.",
+      "Of course I like your beautiful  face.",
       "But the person behind it — that’s the one I like the most.",
       "I love when you are all of those things and more.",
       "I love that even though you show me the good, you show me you’re human.",
-      "You are so hard-working and dedicated.",
-      "You always push through and never give up.",
       "And my favourite human right now… is you."
     ];
 
@@ -156,7 +170,7 @@
       }
       complimentText.textContent = compliments[index];
       complimentCard.classList.remove('shake');
-      void complimentCard.offsetWidth;  // reset animation
+      void complimentCard.offsetWidth;
       complimentCard.classList.add('shake');
     });
   </script>
